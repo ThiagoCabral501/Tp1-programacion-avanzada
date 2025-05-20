@@ -6,15 +6,15 @@ public class Autor {
 	private String nombre;
 	private String apellido;
 	private String usuario;
-	private String contraseana;
+	private String contrasena;
 	private String email;
-	public Autor(int idAutor, String nombre, String apellido, String usuario, String contraseaña, String email) {
+	public Autor(int idAutor, String nombre, String apellido, String usuario, String contrasena, String email) {
 		super();
 		this.idAutor = idAutor;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.usuario = usuario;
-		this.contraseana = contraseaña;
+		this.contrasena = contrasena;
 		this.email = email;
 	}
 	public int getIdAutor() {
@@ -42,10 +42,10 @@ public class Autor {
 		this.usuario = usuario;
 	}
 	public String getContraseaña() {
-		return contraseana;
+		return contrasena;
 	}
-	public void setContraseaña(String contraseaña) {
-		this.contraseana = contraseaña;
+	public void setContraseaña(String contrasena) {
+		this.contrasena = contrasena;
 	}
 	public String getEmail() {
 		return email;
