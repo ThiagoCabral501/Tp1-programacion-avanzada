@@ -78,8 +78,18 @@ public class MainLibreria {
             elegido = JOptionPane.showOptionDialog(null, "Menú Autor", "Opciones",
                     0, 0, null, opcionesAutor, opcionesAutor[0]);
             switch (elegido) {
-                case 0:
-                    JOptionPane.showMessageDialog(null, "Enviando propuesta de libro...");
+                case 0://Enviar propuesta de libro
+                	String titulo = JOptionPane.showInputDialog("Título del libro:");
+                    String descripcion = JOptionPane.showInputDialog("Descripción del libro:");
+                    String genero = JOptionPane.showInputDialog("Género del libro:");
+                    String fecha = JOptionPane.showInputDialog("Fecha de envío (YYYY-MM-DD):");
+                    String archivo = JOptionPane.showInputDialog("Nombre del archivo (PDF):");
+                    String estado = "pendiente";
+                    
+                    Libro nuevoLibro = new Libro(0, titulo, descripcion, genero, fecha, archivo, estado, usuario.getId());
+                    Libro.agregarLibro(nuevoLibro);
+                    
+                    JOptionPane.showMessageDialog(null, "Propuesta enviada con éxito.");
                     break;
                 case 1:
                     JOptionPane.showMessageDialog(null, "Viendo estado de las propuestas...");
