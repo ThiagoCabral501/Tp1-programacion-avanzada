@@ -1,4 +1,4 @@
-package tp1;
+package BLL;
 
 public class Venta {
 	

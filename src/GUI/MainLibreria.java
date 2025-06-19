@@ -1,7 +1,11 @@
-package tp1;
+package GUI;
 
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
+
+import BLL.Libro;
+import BLL.Usuario;
+import DLL.DLLLibro;
 
 public class MainLibreria {
 
@@ -25,8 +29,12 @@ public class MainLibreria {
 
                         if (user.getTipo().equalsIgnoreCase("admin")) {
                             menuAdmin();
-                        } else {
+                        } else if (user.getTipo().equalsIgnoreCase("autor")) {
                             menuAutor(user);
+                        } else if (user.getTipo().equalsIgnoreCase("cliente")) {
+                            menuCliente(user);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Tipo de usuario no reconocido.");
                         }
 
                     } else {
@@ -37,7 +45,7 @@ public class MainLibreria {
                 case 1: // Registrar
                     String nombre = JOptionPane.showInputDialog("Nombre:");
                     String email = JOptionPane.showInputDialog("Email:");
-                    String tipo = JOptionPane.showInputDialog("Tipo (admin o autor):");
+                    String tipo = JOptionPane.showInputDialog("Tipo (admin, autor o cliente):");
                     String pass = JOptionPane.showInputDialog("Contraseña:");
 
                     Usuario nuevo = new Usuario(0, nombre, email, tipo.toLowerCase(), pass);
@@ -49,7 +57,7 @@ public class MainLibreria {
     }
 
     public static void menuAdmin() {
-        String[] opcionesAdmin = { "Ver propuestas", "Aceptar/Rechazar propuestas", "Publicar Libros", "Salir" };
+        String[] opcionesAdmin = { "Ver propuestas", "Aceptar/Rechazar propuestas", "Publicar Libros", "Administrar Stock", "Salir" };
         int elegido;
         do {
             elegido = JOptionPane.showOptionDialog(null, "Menú Administrador", "Opciones",
@@ -65,10 +73,23 @@ public class MainLibreria {
                     JOptionPane.showMessageDialog(null, "Publicando libros...");
                     break;
                 case 3:
+                    try {
+                        String idStr = JOptionPane.showInputDialog("ID del libro:");
+                        int idLibro = Integer.parseInt(idStr);
+
+                        String cantidadStr = JOptionPane.showInputDialog("Cantidad a aumentar:");
+                        int cantidad = Integer.parseInt(cantidadStr);
+
+                        DLLLibro.aumentarStock(idLibro, cantidad);
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Entrada inválida.");
+                    }
+                    break;
+                case 4:
                     JOptionPane.showMessageDialog(null, "Saliendo del menú administrador...");
                     break;
             }
-        } while (elegido != 3);
+        } while (elegido != 4);
     }
 
     public static void menuAutor(Usuario usuario) {
@@ -85,9 +106,10 @@ public class MainLibreria {
                     String fecha = JOptionPane.showInputDialog("Fecha de envío (YYYY-MM-DD):");
                     String archivo = JOptionPane.showInputDialog("Nombre del archivo (PDF):");
                     String estado = "pendiente";
+                    int stock = 0; // El autor no define stock
                     
-                    Libro nuevoLibro = new Libro(0, titulo, descripcion, genero, fecha, archivo, estado, usuario.getId());
-                    Libro.agregarLibro(nuevoLibro);
+                    Libro nuevoLibro = new Libro(0, titulo, descripcion, genero, fecha, archivo, estado, usuario.getId(), stock);
+                    DLLLibro.agregarLibro(nuevoLibro);
                     
                     JOptionPane.showMessageDialog(null, "Propuesta enviada con éxito.");
                     break;
@@ -106,4 +128,34 @@ public class MainLibreria {
             }
         } while (elegido != 4);
     }
+    
+
+    public static void menuCliente(Usuario usuario) {
+        String[] opcionesCliente = { "Comprar libro", "Salir" };
+        int elegido;
+        do {
+            elegido = JOptionPane.showOptionDialog(null, "Menú Cliente", "Opciones",
+                    0, 0, null, opcionesCliente, opcionesCliente[0]);
+            switch (elegido) {
+                case 0: // Comprar libro
+                    try {
+                        String idLibroStr = JOptionPane.showInputDialog("ID del libro a comprar:");
+                        int idLibro = Integer.parseInt(idLibroStr);
+
+                        String cantidadStr = JOptionPane.showInputDialog("Cantidad:");
+                        int cantidad = Integer.parseInt(cantidadStr);
+
+                        DLLLibro.actualizarStock(idLibro, cantidad);
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Entrada inválida.");
+                    }
+                    break;
+                case 1:
+                    JOptionPane.showMessageDialog(null, "Saliendo del menú cliente...");
+                    break;
+            }
+        } while (elegido != 1);
+    }
+
+    
 }
