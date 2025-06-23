@@ -107,8 +107,9 @@ public class MainLibreria {
                     String archivo = JOptionPane.showInputDialog("Nombre del archivo (PDF):");
                     String estado = "pendiente";
                     int stock = 0; // El autor no define stock
+                    double precio = 0.0;
                     
-                    Libro nuevoLibro = new Libro(0, titulo, descripcion, genero, fecha, archivo, estado, usuario.getId(), stock);
+                    Libro nuevoLibro = new Libro(0, titulo, descripcion, genero, fecha, archivo, estado, usuario.getId(), stock, precio);
                     DLLLibro.agregarLibro(nuevoLibro);
                     
                     JOptionPane.showMessageDialog(null, "Propuesta enviada con éxito.");

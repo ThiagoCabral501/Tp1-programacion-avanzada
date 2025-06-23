@@ -16,7 +16,7 @@ public class DLLLibro {
 		public static void agregarLibro(Libro libro) {
 	        try {
 	            PreparedStatement stmt = con.prepareStatement(
-	            		"INSERT INTO libro (titulo, descripcion, genero, fechaEnvio, archivoLibro, estado, idAutor) VALUES (?, ?, ?, ?, ?, ?, ?)"
+	            		"INSERT INTO libro (titulo, descripcion, genero, fechaEnvio, archivoLibro, estado, idAutor, stock, precio) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
 	            );
 	            stmt.setString(1, libro.getTitulo());
 	            stmt.setString(2, libro.getDescripcion());
@@ -25,6 +25,8 @@ public class DLLLibro {
 	            stmt.setString(5, libro.getArchivoLibro());
 	            stmt.setString(6, libro.getEstado());
 	            stmt.setInt(7, libro.getIdAutor());
+	            stmt.setInt(8, libro.getStock());
+	            stmt.setDouble(9, libro.getPrecio());
 
 	            stmt.executeUpdate();
 	            System.out.println("Libro agregado correctamente.");
@@ -51,8 +53,9 @@ public class DLLLibro {
 	                String archivoLibro = rs.getString("archivoLibro");
 	                String estado = rs.getString("estado");
 	                int stock = rs.getInt("stock");
+	                double precio = rs.getDouble("precio");
 
-	                libros.add(new Libro(id, titulo, descripcion, genero, fechaEnvio, archivoLibro, estado, idAutor, stock));
+	                libros.add(new Libro(id, titulo, descripcion, genero, fechaEnvio, archivoLibro, estado, idAutor, stock, precio));
 	            }
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -77,8 +80,9 @@ public class DLLLibro {
 	                String estado = rs.getString("estado");
 	                int idAutor = rs.getInt("idAutor");
 	                int stock = rs.getInt("stock");
+	                double precio = rs.getDouble("precio");
 
-	                libro = new Libro(id, titulo, descripcion, genero, fechaEnvio, archivoLibro, estado, idAutor, stock);
+	                libro = new Libro(id, titulo, descripcion, genero, fechaEnvio, archivoLibro, estado, idAutor, stock, precio);
 	            }
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -121,6 +125,32 @@ public class DLLLibro {
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
+	    }
+	    
+	    public static LinkedList<Libro> obtenerLibros() {
+	        LinkedList<Libro> libros = new LinkedList<>();
+	        try {
+	            PreparedStatement stmt = con.prepareStatement("SELECT * FROM libro");
+	            ResultSet rs = stmt.executeQuery();
+
+	            while (rs.next()) {
+	                int id = rs.getInt("idLibro");
+	                String titulo = rs.getString("titulo");
+	                String descripcion = rs.getString("descripcion");
+	                String genero = rs.getString("genero");
+	                String fechaEnvio = rs.getString("fechaEnvio");
+	                String archivoLibro = rs.getString("archivoLibro");
+	                String estado = rs.getString("estado");
+	                int idAutor = rs.getInt("idAutor");
+	                int stock = rs.getInt("stock");
+	                double precio = rs.getDouble("precio");
+
+	                libros.add(new Libro(id, titulo, descripcion, genero, fechaEnvio, archivoLibro, estado, idAutor, stock, precio));
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return libros;
 	    }
 
 	

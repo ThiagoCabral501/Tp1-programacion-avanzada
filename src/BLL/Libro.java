@@ -17,10 +17,11 @@ public class Libro {
 	private String estado;
 	private int idAutor;
 	private int stock;
+	private double precio;
 	
 	
 	public Libro(int idLibro, String titulo, String descripcion, String genero, String fechaEnvio, String archivoLibro,
-			String estado, int idAutor, int stock) {
+			String estado, int idAutor, int stock, double precio) {
 		this.idLibro = idLibro;
 		this.titulo = titulo;
 		this.descripcion = descripcion;
@@ -30,6 +31,7 @@ public class Libro {
 		this.estado = estado;
 		this.idAutor = idAutor;
 		this.stock = stock;
+		this.precio = precio;
 	}
 	
 	public int getIdLibro() {
@@ -86,12 +88,18 @@ public class Libro {
 	public void setStock(int stock) {
 	    this.stock = stock;
 	}
+	public double getPrecio() {
+	    return precio;
+	}
+	public void setPrecio(double precio) {
+	    this.precio = precio;
+	}
 
 	@Override
 	public String toString() {
 		return "Libro [idLibro=" + idLibro + ", titulo=" + titulo + ", descripcion=" + descripcion + ", genero="
 				+ genero + ", fechaEnvio=" + fechaEnvio + ", archivoLibro=" + archivoLibro + ", estado=" + estado
-				+ ", idAutor=" + idAutor + ", stock=" + stock + "]";
+				+ ", idAutor=" + idAutor + ", stock=" + stock + ", precio=" + "]";
 	}
 	
 	
