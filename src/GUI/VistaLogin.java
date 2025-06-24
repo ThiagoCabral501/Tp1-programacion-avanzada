@@ -88,7 +88,7 @@ public class VistaLogin extends JFrame {
 						VistaAdmin admin = new VistaAdmin();
 						admin.setVisible(true);
 					} else if (user.getTipo().equalsIgnoreCase("autor")) {
-						VistaAutor autor = new VistaAutor();
+						VistaAutor autor = new VistaAutor(user);
 						autor.setVisible(true);
 					} else if (user.getTipo().equalsIgnoreCase("cliente")) {
 						VistaCliente cliente = new VistaCliente();

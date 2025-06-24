@@ -5,34 +5,23 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import BLL.Usuario;
+
 import javax.swing.JLabel;
 import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VistaAutor extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private Usuario autor;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VistaAutor frame = new VistaAutor();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public VistaAutor() {
+	public VistaAutor(Usuario autor) {
+		this.autor = autor;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650, 466);
 		contentPane = new JPanel();
@@ -50,6 +39,20 @@ public class VistaAutor extends JFrame {
 		LblBienvenidoAutor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		LblBienvenidoAutor.setBounds(10, 56, 234, 17);
 		contentPane.add(LblBienvenidoAutor);
+		
+		JButton btnEnviarPropuesta = new JButton("Enviar propuesta de libro");
+		btnEnviarPropuesta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EnviarPropuestaLibro propuesta = new EnviarPropuestaLibro(VistaAutor.this.autor);
+				propuesta.setVisible(true);
+				dispose();
+			}
+		});
+		btnEnviarPropuesta.setBounds(10, 148, 166, 34);
+		contentPane.add(btnEnviarPropuesta);
+		
+		JButton btnNewButton = new JButton("Ver estado de propuestas");
+		btnNewButton.setBounds(10, 225, 166, 34);
+		contentPane.add(btnNewButton);
 	}
-
 }
