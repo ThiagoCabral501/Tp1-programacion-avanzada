@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 
 import DLL.Conexion;
+import DLL.DLLLibro;
 
 public class Libro {
 	private int idLibro;
@@ -102,6 +103,19 @@ public class Libro {
 				+ ", idAutor=" + idAutor + ", stock=" + stock + ", precio=" + "]";
 	}
 	
-	
+	public static String editarLibro(Libro libro) {
+	    if (libro.getTitulo().isEmpty() ||
+	        libro.getGenero().isEmpty() ||
+	        libro.getDescripcion().isEmpty() ||
+	        libro.getArchivoLibro().isEmpty() ||
+	        libro.getEstado().isEmpty() ||
+	        libro.getStock() < 0 ||
+	        libro.getPrecio() < 0) {
+	        
+	        return "Datos inválidos, verifique los campos.";
+	    } else {
+	        return DLLLibro.editarLibro(libro);
+	    }
+	}
 
 }

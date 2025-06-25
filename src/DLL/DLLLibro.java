@@ -152,6 +152,32 @@ public class DLLLibro {
 	        }
 	        return libros;
 	    }
+	    
+	    public static String editarLibro(Libro libro) {
+	        try {
+	            PreparedStatement stmt = con.prepareStatement(
+	                "UPDATE libro SET titulo = ?, descripcion = ?, genero = ?, archivoLibro = ?, estado = ?, stock = ?, precio = ? WHERE idLibro = ?"
+	            );
+	            stmt.setString(1, libro.getTitulo());
+	            stmt.setString(2, libro.getDescripcion());
+	            stmt.setString(3, libro.getGenero());
+	            stmt.setString(4, libro.getArchivoLibro());
+	            stmt.setString(5, libro.getEstado());
+	            stmt.setInt(6, libro.getStock());
+	            stmt.setDouble(7, libro.getPrecio());
+	            stmt.setInt(8, libro.getIdLibro());
+
+	            int filas = stmt.executeUpdate();
+	            if (filas > 0) {
+	                return "Libro editado correctamente.";
+	            } else {
+	                return "No se encontró el libro para editar.";
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return "Error al editar el libro.";
+	        }
+	    }
 
 	
 }

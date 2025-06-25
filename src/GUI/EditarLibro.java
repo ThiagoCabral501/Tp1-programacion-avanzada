@@ -24,6 +24,7 @@ public class EditarLibro extends JFrame {
 	private JTextField inpEstadoLibro;
 	private JTextField inpStockLibro;
 	private JTextField inpPrecioLibro;
+	private JLabel lblInfo;
 
 
 	public EditarLibro(Libro libro) {
@@ -107,6 +108,19 @@ public class EditarLibro extends JFrame {
 		inpPrecioLibro.setText(String.valueOf(libro.getPrecio()));
 		
 		JButton btnEditarLibro = new JButton("Editar");
+		btnEditarLibro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				libro.setTitulo(inpTituloLibro.getText());
+		        libro.setGenero(inpGeneroLibro.getText());
+		        libro.setDescripcion(inpDescripcionLibro.getText());
+		        libro.setArchivoLibro(inpArchivoLibro.getText());
+		        libro.setEstado(inpEstadoLibro.getText());
+		        libro.setStock(Integer.parseInt(inpStockLibro.getText()));
+		        libro.setPrecio(Double.parseDouble(inpPrecioLibro.getText()));
+
+		        lblInfo.setText(Libro.editarLibro(libro));
+			}
+		});
 		btnEditarLibro.setBounds(119, 459, 89, 23);
 		ContentPane.add(btnEditarLibro);
 		
@@ -120,5 +134,9 @@ public class EditarLibro extends JFrame {
 		});
 		btnVolverLibro.setBounds(223, 459, 89, 23);
 		ContentPane.add(btnVolverLibro);
+		
+		lblInfo = new JLabel("");
+		lblInfo.setBounds(10, 491, 411, 14);
+		ContentPane.add(lblInfo);
 	}
 }

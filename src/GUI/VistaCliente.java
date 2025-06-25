@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -17,6 +19,9 @@ import java.util.stream.Collectors;
 
 import BLL.Libro;
 import DLL.DLLLibro;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class VistaCliente extends JFrame {
@@ -72,11 +77,43 @@ public class VistaCliente extends JFrame {
 		scrollPane.setBounds(10, 100, 617, 200);
 		contentPane.add(scrollPane);
 		
+		JLabel lblDescripcionCliente = new JLabel("Seleccione un libro haciendole click ");
+		lblDescripcionCliente.setBounds(227, 75, 275, 14);
+		contentPane.add(lblDescripcionCliente);
+		
+		JButton btnComprar = new JButton("Comprar");
+		btnComprar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int filaSeleccionada = tablaLibros.getSelectedRow();
+
+			    if (filaSeleccionada != -1) {
+			        int idLibro = (int) modelo.getValueAt(filaSeleccionada, 0);
+			        Libro libroSeleccionado = DLLLibro.obtenerLibros().stream()
+			            .filter(libro -> libro.getIdLibro() == idLibro)
+			            .findFirst()
+			            .orElse(null);
+
+			        if (libroSeleccionado != null) {
+			            VistaComprarLibro ventanaCompra = new VistaComprarLibro(libroSeleccionado);
+			            ventanaCompra.setVisible(true);
+			            dispose();
+			        } else {
+			            JOptionPane.showMessageDialog(null, "No se encontró el libro seleccionado.");
+			        }
+			    } else {
+			        JOptionPane.showMessageDialog(null, "Debe seleccionar un libro primero.");
+			    }
+			}
+		});
+		btnComprar.setBounds(260, 327, 128, 44);
+		contentPane.add(btnComprar);
+		
 		cargarTabla();
 	}
 	
 	private void cargarTabla() {
 	    LinkedList<Libro> librosOrdenados = DLLLibro.obtenerLibros().stream()
+	    	.filter(libro -> "publicado".equalsIgnoreCase(libro.getEstado())) //Filtrar por solo libros publicados
 	        .sorted(Comparator.comparingInt(Libro::getIdLibro).reversed()) // Orden descendente por ID
 	        .collect(Collectors.toCollection(LinkedList::new));
 

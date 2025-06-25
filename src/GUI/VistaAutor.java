@@ -35,7 +35,7 @@ public class VistaAutor extends JFrame {
 		LblTituloAutor.setBounds(230, 11, 208, 34);
 		contentPane.add(LblTituloAutor);
 		
-		JLabel LblBienvenidoAutor = new JLabel("Bienvenido: ");
+		JLabel LblBienvenidoAutor = new JLabel("Bienvenido");
 		LblBienvenidoAutor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		LblBienvenidoAutor.setBounds(10, 56, 234, 17);
 		contentPane.add(LblBienvenidoAutor);
@@ -48,11 +48,11 @@ public class VistaAutor extends JFrame {
 				dispose();
 			}
 		});
-		btnEnviarPropuesta.setBounds(10, 148, 166, 34);
+		btnEnviarPropuesta.setBounds(221, 152, 217, 34);
 		contentPane.add(btnEnviarPropuesta);
 		
 		JButton btnNewButton = new JButton("Ver estado de propuestas");
-		btnNewButton.setBounds(10, 225, 166, 34);
+		btnNewButton.setBounds(221, 229, 217, 34);
 		contentPane.add(btnNewButton);
 	}
 }

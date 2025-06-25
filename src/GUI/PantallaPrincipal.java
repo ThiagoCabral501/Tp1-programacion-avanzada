@@ -58,7 +58,7 @@ public class PantallaPrincipal extends JFrame {
 		        dispose(); // Cierra la pantalla actual
 			}
 		});
-		btnIniciarSesion.setBounds(33, 132, 122, 34);
+		btnIniciarSesion.setBounds(188, 177, 122, 34);
 		contentPane.add(btnIniciarSesion);
 		
 		JButton btnRegistrarsePP = new JButton("Registrarse");
@@ -69,7 +69,7 @@ public class PantallaPrincipal extends JFrame {
 		        dispose();
 			}
 		});
-		btnRegistrarsePP.setBounds(33, 204, 122, 34);
+		btnRegistrarsePP.setBounds(337, 177, 122, 34);
 		contentPane.add(btnRegistrarsePP);
 	}
 

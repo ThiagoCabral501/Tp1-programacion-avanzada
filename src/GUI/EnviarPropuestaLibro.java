@@ -130,7 +130,7 @@ public class EnviarPropuestaLibro extends JFrame {
 			    new VistaAutor(autor).setVisible(true);
 			}
 		});
-		btnEnviarPropuestaLibro.setBounds(115, 411, 119, 23);
+		btnEnviarPropuestaLibro.setBounds(81, 410, 155, 23);
 		contentPane.add(btnEnviarPropuestaLibro);
 		
 		JButton btnVolverVistaAutor = new JButton("Volver");
@@ -141,7 +141,7 @@ public class EnviarPropuestaLibro extends JFrame {
 		        dispose();
 			}
 		});
-		btnVolverVistaAutor.setBounds(246, 411, 119, 23);
+		btnVolverVistaAutor.setBounds(246, 410, 155, 23);
 		contentPane.add(btnVolverVistaAutor);
 	}
 }
