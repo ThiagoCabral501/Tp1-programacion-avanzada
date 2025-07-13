@@ -7,7 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import BLL.Libro;
+import BLL.Usuario;
+import BLL.Venta;
 import DLL.DLLLibro;
+import DLL.DLLVenta;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,6 +19,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 
 public class VistaComprarLibro extends JFrame {
@@ -24,10 +28,13 @@ public class VistaComprarLibro extends JFrame {
 	private JPanel contentPane;
 	private JTextField inpCantidad;
 	private Libro libro;
+	private Usuario usuario;
+	private JLabel lblPrecioTotal;
 
 	
-	public VistaComprarLibro(Libro libro) {
+	public VistaComprarLibro(Libro libro, Usuario usuario) {
 		this.libro = libro;
+		this.usuario = usuario;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 486, 385);
 		contentPane = new JPanel();
@@ -62,6 +69,34 @@ public class VistaComprarLibro extends JFrame {
 		contentPane.add(inpCantidad);
 		inpCantidad.setColumns(10);
 		
+		JButton btnCalcularTotal = new JButton("Calcular Total");
+		btnCalcularTotal.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            int cantidad = Integer.parseInt(inpCantidad.getText());
+
+		            if (cantidad <= 0) {
+		                JOptionPane.showMessageDialog(null, "La cantidad debe ser mayor a 0.");
+		                return;
+		            }
+
+		            double precioUnitario = libro.getPrecio();
+		            double precioTotal = cantidad * precioUnitario;
+
+		            lblPrecioTotal.setText("Precio Total: $" + precioTotal);
+
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "Debe ingresar una cantidad válida.");
+		        }
+		    }
+		});
+		btnCalcularTotal.setBounds(200, 218, 160, 25);
+		contentPane.add(btnCalcularTotal);
+		
+		lblPrecioTotal = new JLabel("Precio Total: $0.0");
+		lblPrecioTotal.setBounds(87, 245, 300, 20);
+		contentPane.add(lblPrecioTotal);
+		
 		JButton btnConfirmarCompra = new JButton("Confirmar Compra");
 		btnConfirmarCompra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -77,12 +112,27 @@ public class VistaComprarLibro extends JFrame {
 						JOptionPane.showMessageDialog(null, "No hay suficiente stock disponible.");
 						return;
 					}
+					
+					double precioUnitario = libro.getPrecio();
+                    double precioTotal = cantidad * precioUnitario;
+                    String fechaHoy = LocalDate.now().toString();
+                    
+                    Venta venta = new Venta(
+                        usuario.getId(),            // idUsuario
+                        libro.getIdLibro(),         // idLibro
+                        fechaHoy,                   // fechaVenta
+                        cantidad,                   // cantidad
+                        precioUnitario,             // precioUnitario
+                        precioTotal                 // precioTotal
+                    );
+                    
+                    DLLVenta.registrarVenta(venta);
 
 					DLLLibro.actualizarStock(libro.getIdLibro(), cantidad);
 					JOptionPane.showMessageDialog(null, "¡Compra realizada con éxito!");
 
 					dispose();
-					new VistaCliente().setVisible(true);
+					new VistaCliente(usuario).setVisible(true);
 
 				} catch (NumberFormatException ex) {
 					JOptionPane.showMessageDialog(null, "Debe ingresar un número válido.");

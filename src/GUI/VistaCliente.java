@@ -18,6 +18,7 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import BLL.Libro;
+import BLL.Usuario;
 import DLL.DLLLibro;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -30,27 +31,10 @@ public class VistaCliente extends JFrame {
 	private JPanel contentPane;
 	private JTable tablaLibros;
 	private DefaultTableModel modelo;
+	private Usuario usuario;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VistaCliente frame = new VistaCliente();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public VistaCliente() {
+	public VistaCliente(Usuario usuario) {
+		this.usuario = usuario;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 653, 464);
 		contentPane = new JPanel();
@@ -94,7 +78,7 @@ public class VistaCliente extends JFrame {
 			            .orElse(null);
 
 			        if (libroSeleccionado != null) {
-			            VistaComprarLibro ventanaCompra = new VistaComprarLibro(libroSeleccionado);
+			            VistaComprarLibro ventanaCompra = new VistaComprarLibro(libroSeleccionado, usuario);
 			            ventanaCompra.setVisible(true);
 			            dispose();
 			        } else {
@@ -105,8 +89,19 @@ public class VistaCliente extends JFrame {
 			    }
 			}
 		});
-		btnComprar.setBounds(260, 327, 128, 44);
+		btnComprar.setBounds(178, 327, 128, 44);
 		contentPane.add(btnComprar);
+		
+		JButton btnNewButton = new JButton("Ver Historial de compras");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VistaHistorialCliente historial = new VistaHistorialCliente(usuario);
+		        historial.setVisible(true);
+		        dispose();
+			}
+		});
+		btnNewButton.setBounds(343, 327, 187, 44);
+		contentPane.add(btnNewButton);
 		
 		cargarTabla();
 	}

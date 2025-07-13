@@ -91,7 +91,7 @@ public class VistaLogin extends JFrame {
 						VistaAutor autor = new VistaAutor(user);
 						autor.setVisible(true);
 					} else if (user.getTipo().equalsIgnoreCase("cliente")) {
-						VistaCliente cliente = new VistaCliente();
+						VistaCliente cliente = new VistaCliente(user);
 						cliente.setVisible(true);
 					} else {
 						JOptionPane.showMessageDialog(null, "Tipo de usuario no reconocido.");
