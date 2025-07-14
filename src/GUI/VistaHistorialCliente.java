@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -18,6 +19,9 @@ import DLL.DLLLibro;
 import DLL.DLLVenta;
 
 import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VistaHistorialCliente extends JFrame {
 
@@ -30,7 +34,7 @@ public class VistaHistorialCliente extends JFrame {
 	public VistaHistorialCliente(Usuario usuario) {
 		this.usuario = usuario;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 631, 538);
+		setBounds(100, 100, 631, 575);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -57,6 +61,56 @@ public class VistaHistorialCliente extends JFrame {
 			scrollPane.setBounds(30, 70, 570, 400);
 			contentPane.add(scrollPane);
 			
+			JButton VerDetalleCompra = new JButton("Ver detalle de compra");
+			VerDetalleCompra.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//Obtener la fila seleccionada
+					int fila = tablaVentas.getSelectedRow();
+
+			        if (fila == -1) {
+			            JOptionPane.showMessageDialog(null, "Debe seleccionar una compra.");
+			            return;
+			        }
+
+			        //Traer datos de la tabla
+			        String titulo = modelo.getValueAt(fila, 0).toString();
+			        String fecha = modelo.getValueAt(fila, 1).toString();
+			        int cantidad = Integer.parseInt(modelo.getValueAt(fila, 2).toString());
+			        double precioTotal = Double.parseDouble(modelo.getValueAt(fila, 4).toString());
+
+			        // Buscar el libro por título
+			        Libro libroEncontrado = null;
+			        for (Libro l : DLLLibro.obtenerLibros()) {
+			            if (l.getTitulo().equals(titulo)) {
+			                libroEncontrado = l;
+			                break;
+			            }
+			        }
+
+			        if (libroEncontrado == null) {
+			            JOptionPane.showMessageDialog(null, "No se encontró información del libro.");
+			            return;
+			        }
+
+			        //Crear objeto Venta (para pasar datos)
+			        Venta venta = new Venta(
+			            usuario.getId(),
+			            libroEncontrado.getIdLibro(),
+			            fecha,
+			            cantidad,
+			            libroEncontrado.getPrecio(),
+			            precioTotal
+			        );
+
+			        // Abrir la vista detalle
+			        VistaDetalleCompra detalle = new VistaDetalleCompra(venta, libroEncontrado);
+			        detalle.setVisible(true);
+			        dispose();
+			    }
+			});
+			VerDetalleCompra.setBounds(220, 491, 179, 23);
+			contentPane.add(VerDetalleCompra);
+			
 			//cargar datos en la tabla
 			cargarHistorial();
 	}
@@ -65,15 +119,15 @@ public class VistaHistorialCliente extends JFrame {
 		// Obtener TODAS las ventas
 		LinkedList<Venta> todasLasVentas = DLLVenta.obtenerVentas();
 
-		// Limpiar la tabla antes de cargar
+		//Limpiar la tabla antes de cargar
 		modelo.setRowCount(0);
 
-		// Recorrer todas las ventas
+		//Recorrer todas las ventas
 		for (Venta v : todasLasVentas) {
 			// Filtrar solo las ventas de este usuario
 			if (v.getIdUsuario() == usuario.getId()) {
 				
-				// Buscar el libro correspondiente
+				// Buscar el libro
 				Libro libroEncontrado = DLLLibro.obtenerLibros().stream()
 						.filter(l -> l.getIdLibro() == v.getIdLibro())
 						.findFirst()
