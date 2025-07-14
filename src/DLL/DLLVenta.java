@@ -40,6 +40,7 @@ public class DLLVenta {
 		        
 		        while (rs.next()) { //recorre cada fila del ResultSet
 		            Venta v = new Venta( // Crea un objeto Venta con los datos de la fila actual
+		            	rs.getInt("idVenta"),
 		                rs.getInt("idUsuario"),
 		                rs.getInt("idLibro"),
 		                rs.getString("fechaVenta"),

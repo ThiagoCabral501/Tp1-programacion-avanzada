@@ -20,6 +20,8 @@ import javax.swing.table.DefaultTableModel;
 import BLL.Libro;
 import DLL.DLLLibro;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VistaAdmin extends JFrame {
 
@@ -78,8 +80,19 @@ public class VistaAdmin extends JFrame {
 			contentPane.add(scrollPane);
 			
 			JButton btnEditar = new JButton("Editar");
-			btnEditar.setBounds(262, 327, 116, 39);
+			btnEditar.setBounds(193, 327, 116, 39);
 			contentPane.add(btnEditar);
+			
+			JButton btnVerVentas = new JButton("Ver Ventas");
+			btnVerVentas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					VistaAdminVentas ventanaVentas = new VistaAdminVentas();
+				    ventanaVentas.setVisible(true);
+				    dispose();
+				}
+			});
+			btnVerVentas.setBounds(330, 327, 116, 39);
+			contentPane.add(btnVerVentas);
 			
 			tablaLibros.getSelectionModel().addListSelectionListener(e -> {
 			    if (!e.getValueIsAdjusting()) {
@@ -136,5 +149,4 @@ public class VistaAdmin extends JFrame {
 	        });
 	    }
 	}
-
 }
