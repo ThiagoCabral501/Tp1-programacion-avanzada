@@ -75,7 +75,7 @@ public class VistaDetalleAdmin extends JFrame {
         lblPrecioTotal.setBounds(30, 250, 400, 20);
         contentPane.add(lblPrecioTotal);
 
-        // Cargar los datos dinámicamente
+        // Cargar los datos
         cargarDatos(idVenta);
     }
 

@@ -128,7 +128,7 @@ public class VistaAdmin extends JFrame {
 	}
 	
 	private void cargarTabla() {
-	    LinkedList<Libro> todos = DLLLibro.obtenerLibros(); // este método lo crearemos si no existe
+	    LinkedList<Libro> todos = DLLLibro.obtenerLibros();
 	    LinkedList<Libro> ordenados = todos.stream()
 	        .sorted(Comparator.comparingInt(Libro::getIdLibro).reversed())
 	        .collect(Collectors.toCollection(LinkedList::new));

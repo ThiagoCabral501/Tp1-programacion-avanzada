@@ -78,7 +78,7 @@ public class VistaHistorialCliente extends JFrame {
 			        int cantidad = Integer.parseInt(modelo.getValueAt(fila, 2).toString());
 			        double precioTotal = Double.parseDouble(modelo.getValueAt(fila, 4).toString());
 
-			        // Buscar el libro por título
+			        // Buscar el libro por titulo
 			        Libro libroEncontrado = null;
 			        for (Libro l : DLLLibro.obtenerLibros()) {
 			            if (l.getTitulo().equals(titulo)) {
